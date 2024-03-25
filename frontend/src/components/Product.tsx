@@ -15,10 +15,10 @@ export const Product = ({ product }: { product: IProduct }) => {
                         <strong>{product.name}</strong>
                     </Card.Title>
                 </Link>
-                <Card.Text className="pt-2">
+                <Card.Footer className="pt-2">
                     <Rating starsNumber={product.rating} reviews={`${product.numReviews} reviews`} />
                     <h4 className="fs-3 mt-2">{product.price}€</h4>
-                </Card.Text>
+                </Card.Footer>
             </Card.Body>
         </Card>
 

@@ -1,12 +1,20 @@
-import { PRODUCTS } from "../products"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Link } from "react-router-dom"
 import { Row,Col, Image,ListGroup,Card,Button } from "react-bootstrap"
 import { Rating } from "../components/Rating"
+import { IProduct } from "@/interfaces/IProduct"
+import axios from "axios"
 
 export const ProductScreen = () => {
+    const [product, setProduct] = useState<IProduct | null>(null)
     const {id:productId} = useParams<{id:string}>()
-    const product = PRODUCTS.find(product => product._id === productId)
+    useEffect(() => {
+        axios.get(`http://localhost:5000/api/products/${productId}`).then(res => {
+            setProduct(res.data)
+        })
+    }, [productId])
+
     if(!product){
         return <h2>Product not found</h2>
     }

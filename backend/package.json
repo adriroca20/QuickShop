@@ -1,0 +1,22 @@
+{
+  "name": "quickshop",
+  "version": "1.0.0",
+  "description": "e-commerce built with MERN stack",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --watch server.js ",
+    "start-once": "node server.js ",
+    "data-i": "node seeder.js",
+    "data-d": "node seeder.js -d"
+  },
+  "author": "Adrian Rocafull",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.1",
+    "mongoose": "^8.2.3"
+  }
+}
