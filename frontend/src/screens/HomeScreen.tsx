@@ -17,8 +17,8 @@ export const HomeScreen = () => {
                 ) : (
                     <>
                         <h1>Latest Products</h1>
-                        <Row className="gap-3 align-items-center justify-content-center">
-                            {products.map((product: IProduct) => (
+                        <Row className="align-items-center justify-content-between row-gap-3">
+                            {products.length>0 && products.map((product: IProduct) => (
                                 <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                                     <Product product={product}></Product>
                                 </Col>

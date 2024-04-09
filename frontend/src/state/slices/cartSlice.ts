@@ -1,6 +1,6 @@
 import { ICart } from "@/interfaces/ICart";
 import { ICartItem } from "@/interfaces/ICartItem";
-import { addDecimals, updateCart } from "../../utils";
+import { updateCart } from "../../utils";
 import { createSlice } from "@reduxjs/toolkit";
 
 const storageItem = localStorage.getItem("cart")
@@ -9,7 +9,9 @@ const initialState:ICart = storageItem ? JSON.parse(storageItem) : {
     totalPrice: 0,
     shippingPrice: 0,
     taxPrice: 0,
-    totalItems: 0
+    totalItems: 0,
+    shippingAddress: {},
+    paymentMethod: "PayPal",
 };
 
 
@@ -28,19 +30,25 @@ const cartSlice = createSlice({
             } else {
                 state.cartItems = [...state.cartItems, { product: item.product, quantity: item.quantity }]
             }
-            return updateCart(state)
+            updateCart(state)
+        },
+        updateCartItem: (state, action) => {
+            const item:ICartItem = action.payload;
+            const existingItem = state.cartItems.find(
+                (cartItem) => cartItem.product._id === item.product._id
+            );
+            if (existingItem) {
+                existingItem.quantity = item.quantity;
+            }
+            updateCart(state)
         },
         removeFromCart: (state, action) => {
-            const item = action.payload;
+            const itemId = action.payload;
+            console.log(itemId)
             state.cartItems = state.cartItems.filter(
-                (cartItem) => cartItem.product !== item.product
+                (cartItem) => cartItem.product._id !== itemId
             );
-            state.totalPrice = addDecimals(
-                state.cartItems.reduce(
-                    (acc, item) => acc + item.product.price * item.quantity,0
-                )
-            ) * 1.15 + state.shippingPrice
-            state.totalItems = state.cartItems.reduce((acc, item) => acc + item.quantity, 0)
+            updateCart(state)
         },
         clearCart: (state) => {
             state.cartItems = [];
@@ -50,7 +58,15 @@ const cartSlice = createSlice({
             state.totalItems = 0;
             localStorage.removeItem("cart");
         },
+        saveShippingAddress: (state, action) => {
+            state.shippingAddress = action.payload;
+            return updateCart(state)
+        },
+        savePaymentMethod: (state, action) => {
+            state.paymentMethod = action.payload;
+            return updateCart(state)
+        }
     },
 });
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, saveShippingAddress, clearCart, updateCartItem, savePaymentMethod} = cartSlice.actions;
 export default cartSlice.reducer;

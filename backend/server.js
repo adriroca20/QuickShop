@@ -1,14 +1,21 @@
 import express from 'express';
 import cors from 'cors';
 import connectDB from './config/db.js';
-import router from './routes/productRoutes.js';
+import productRoutes from './routes/productRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
+import cookieParser from 'cookie-parser';
 
 const port = process.env.PORT || 5000;
 
 connectDB();
 const app = express();
-
+//body parser middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+//cookie parser middleware
+app.use(cookieParser());
+//cors middleware
 app.use(cors({
     origin: 'http://localhost:5173'
 }));
@@ -20,7 +27,8 @@ app.get('/api', (req, res) => {
     res.send('API is running');
 });
 
-app.use('/api/products', router)
+app.use('/api/products', productRoutes)
+app.use('/api/users', userRoutes)
 app.use(notFound);
 app.use(errorHandler);
 

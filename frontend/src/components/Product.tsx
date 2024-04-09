@@ -5,7 +5,7 @@ import { Rating } from "./Rating"
 
 export const Product = ({ product }: { product: IProduct }) => {
     return (
-        <Card className="rounded">
+        <Card className="rounded shadow-sm">
             <Link to={`/product/${product._id}`}>
                 <Card.Img variant="top" src={product.image} alt={product.name} />
             </Link>

@@ -6,4 +6,11 @@ export interface ICart {
     shippingPrice: number;
     taxPrice: number;
     totalItems: number;
+    shippingAddress: {
+        address: string;
+        city: string;
+        postalCode: string;
+        country: string;
+    };
+    paymentMethod: string;
 }
