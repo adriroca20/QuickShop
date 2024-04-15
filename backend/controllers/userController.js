@@ -1,6 +1,6 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import User from '../models/userModel.js';
-import generateToken from '../utils/generateToken.js';
+import getToken from '../utils/generateToken.js';
 //@desc Auth user & get token
 //@route POST /api/users/login
 //@access Public
@@ -14,13 +14,20 @@ const logInUser = asyncHandler(async (req, res) => {
         throw new Error('Invalid email')
     }
     if (user && (await user.matchPassword(password))) {
-        generateToken(res, user._id)
+        const token = getToken(user._id)
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "strict",
+            maxAge: 30 * 24 * 60 * 60 * 1000 //30 days
+        })
         res.json({
             _id: user._id,
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
         })
+        return res
     } else {
         res.status(401)
         throw new Error('Invalid email or password')
@@ -44,7 +51,13 @@ const registerUser = asyncHandler(async (req, res) => {
         password
     })
     if (user) {
-        generateToken(res, user._id)
+        const token = getToken(user._id)
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: "strict",
+            maxAge: 30 * 24 * 60 * 60 * 1000 //30 days
+        })
         res.status(201).json({
             _id: user._id,
             name: user.name,
@@ -95,7 +108,13 @@ const updateUserProfile = asyncHandler(async (req, res) => {
             user.password = req.body.password
         }
         const updatedUser = await user.save()
-        generateToken(res, updatedUser._id)
+        const token = getToken(user._id)
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: "strict",
+            maxAge: 30 * 24 * 60 * 60 * 1000 //30 days
+        })
         res.status(200).json({
             _id: updatedUser._id,
             name: updatedUser.name,

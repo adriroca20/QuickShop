@@ -12,7 +12,11 @@ export const updateCart = (state:ICart)=>{
             (acc, item) => acc + item.product.price * item.quantity,0
         ) * 1.15 + state.shippingPrice
     ) 
-
+    state.itemsPrice = addDecimals(
+        state.cartItems.reduce(
+            (acc, item) => acc + item.product.price * item.quantity,0
+        )
+    )
     state.totalItems = state.cartItems.reduce((acc, item) => acc + item.quantity, 0)
     localStorage.setItem("cart", JSON.stringify(state))
 }

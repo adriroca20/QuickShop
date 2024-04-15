@@ -6,6 +6,7 @@ export interface ICart {
     shippingPrice: number;
     taxPrice: number;
     totalItems: number;
+    itemsPrice: number;
     shippingAddress: {
         address: string;
         city: string;

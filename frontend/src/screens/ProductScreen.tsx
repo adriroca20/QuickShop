@@ -35,7 +35,7 @@ export const ProductScreen = () => {
                                     <h3>{product.name}</h3>
                                 </ListGroup.Item>
                                 <ListGroup.Item>
-                                    <Rating starsNumber={product.rating} reviews={`${product.numReviews} reviews`}></Rating>
+                                    <Rating starsNumber={product.rating} reviews={`${product.numReviews}`}></Rating>
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     Price: ${product.price}

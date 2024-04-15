@@ -26,7 +26,7 @@ export const ShippingScreen = () => {
 
     return (
         <FormContainer>
-            <CheckoutSteps step1 step2={true} step3={true} step4={true} />
+            <CheckoutSteps step1={true} step2={true} step3={false} step4={false} />
             <h1>Shipping</h1>
             <Form onSubmit={submitHandler} className="d-flex flex-column gap-2">
                 <Form.Group controlId='address'>

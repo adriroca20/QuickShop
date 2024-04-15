@@ -3,13 +3,13 @@ import asyncHandler from '../middleware/asyncHandler.js'
 import User from '../models/userModel.js'
 
 const protect = asyncHandler(async (req, res, next) => {
-    if (!req.cookies.token) {
+    if (!req.cookies.jwt) {
         res.status(401)
         throw new Error('Not authorized, no token')
     }
     try {
-        const decodedUser = jwt.verify(req.cookies.token, process.env.JWT_SECRET)
-        req.user = await User.findById(decodedUser._id).select('-password')
+        const decodedUser = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET)
+        req.user = await User.findById(decodedUser.id).select('-password')
         next()
     } catch (error) {
         console.error(error)

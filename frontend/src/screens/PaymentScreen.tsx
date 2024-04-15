@@ -29,7 +29,7 @@ export const PaymentScreen = () => {
 
     return (
         <FormContainer>
-            <CheckoutSteps step1 step2 step3={false} step4={false} />
+            <CheckoutSteps step1 step2 step3={true} step4={false} />
             <h1>Payment Method</h1>
             <Form onSubmit={submitHandler} className="d-flex flex-column gap-2">
                 <Form.Group>

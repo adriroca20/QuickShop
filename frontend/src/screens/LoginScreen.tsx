@@ -22,7 +22,7 @@ export const LoginScreen = () => {
     const redirect = searchParams.get("redirect") || "/";
     useEffect(() => {
         if(userInfo){
-            // navigate(redirect);
+            navigate(redirect);
         }
     }, [navigate, userInfo, redirect]);
 
