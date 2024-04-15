@@ -22,6 +22,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
     }),
     getOrderDetails: builder.query({
       query: (orderId) => `${ORDERS_URL}/${orderId}`,
+      keepUnusedDataFor: 5,
     }),
     getPaypalClientId: builder.query({
       query: () => `${ORDERS_URL}/config/paypal`,

@@ -29,44 +29,45 @@ const OrderScreen = () => {
   
     const { userInfo } = useSelector((state) => state.auth);
   
-    const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+    // const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   
-    const {
-      data: paypal,
-      isLoading: loadingPayPal,
-      error: errorPayPal,
-    } = useGetPaypalClientIdQuery();
+    // const {
+    //   data: paypal,
+    //   isLoading: loadingPayPal,
+    //   error: errorPayPal,
+    // } = useGetPaypalClientIdQuery();
   
-    useEffect(() => {
-      if (!errorPayPal && !loadingPayPal && paypal.clientId) {
-        const loadPaypalScript = async () => {
-          paypalDispatch({
-            type: 'resetOptions',
-            value: {
-              'client-id': paypal.clientId,
-              currency: 'USD',
-            },
-          });
-          paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
-        };
-        if (order && !order.isPaid) {
-          if (!window.paypal) {
-            loadPaypalScript();
-          }
-        }
-      }
-    }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch]);
+    // useEffect(() => {
+    //   if (!errorPayPal && !loadingPayPal && paypal.clientId) {
+    //     const loadPaypalScript = async () => {
+    //       paypalDispatch({
+    //         type: 'resetOptions',
+    //         value: {
+    //           'client-id': paypal.clientId,
+    //           currency: 'USD',
+    //         },
+    //       });
+    //       paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+    //     };
+    //     if (order && !order.isPaid) {
+    //       if (!window.paypal) {
+    //         loadPaypalScript();
+    //       }
+    //     }
+    //   }
+    // }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch]);
   
     function onApprove(data, actions) {
-      return actions.order.capture().then(async function (details) {
-        try {
-          await payOrder({ orderId, details });
-          refetch();
-          toast.success('Order is paid');
-        } catch (err) {
-          toast.error(err?.data?.message || err.error);
-        }
-      });
+      console.log(data);
+      // return actions.order.capture().then(async function (details) {
+      //   try {
+      //     await payOrder({ orderId, details });
+      //     refetch();
+      //     toast.success('Order is paid');
+      //   } catch (err) {
+      //     toast.error(err?.data?.message || err.error);
+      //   }
+      // });
     }
   
     // TESTING ONLY! REMOVE BEFORE PRODUCTION
@@ -99,7 +100,9 @@ const OrderScreen = () => {
       await deliverOrder(orderId);
       refetch();
     };
-  
+    useEffect(()=>{
+      console.log(order)
+    }, [])
     return isLoading ? (
       <Loader />
     ) : error ? (
@@ -110,7 +113,7 @@ const OrderScreen = () => {
         <Row>
           <Col md={8}>
             <ListGroup variant='flush'>
-              <ListGroup.Item>
+              <ListGroup.Item  className='px-0'>
                 <h2>Shipping</h2>
                 <p>
                   <strong>Name: </strong> {order.user.name}
@@ -134,7 +137,7 @@ const OrderScreen = () => {
                 )}
               </ListGroup.Item>
   
-              <ListGroup.Item>
+              <ListGroup.Item className='px-0'>
                 <h2>Payment Method</h2>
                 <p>
                   <strong>Method: </strong>
@@ -147,14 +150,14 @@ const OrderScreen = () => {
                 )}
               </ListGroup.Item>
   
-              <ListGroup.Item>
+              <ListGroup.Item  className='px-0'>
                 <h2>Order Items</h2>
                 {order.orderItems.length === 0 ? (
-                  <Message>Order is empty</Message>
+                  <Message variant="info">Order is empty</Message>
                 ) : (
                   <ListGroup variant='flush'>
                     {order.orderItems.map((item, index) => (
-                      <ListGroup.Item key={index}>
+                      <ListGroup.Item key={index} className='px-0'>
                         <Row>
                           <Col md={1}>
                             <Image
@@ -169,8 +172,8 @@ const OrderScreen = () => {
                               {item.name}
                             </Link>
                           </Col>
-                          <Col md={4}>
-                            {item.qty} x ${item.price} = ${item.qty * item.price}
+                          <Col md={4} className='text-end'>
+                            {item.cuantity} x ${item.price} = ${item.cuantity * item.price}
                           </Col>
                         </Row>
                       </ListGroup.Item>
@@ -188,12 +191,6 @@ const OrderScreen = () => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Items</Col>
-                    <Col>${order.itemsPrice}</Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
                     <Col>Shipping</Col>
                     <Col>${order.shippingPrice}</Col>
                   </Row>
@@ -204,7 +201,7 @@ const OrderScreen = () => {
                     <Col>${order.taxPrice}</Col>
                   </Row>
                 </ListGroup.Item>
-                <ListGroup.Item>
+                <ListGroup.Item className='fw-bold'>
                   <Row>
                     <Col>Total</Col>
                     <Col>${order.totalPrice}</Col>
@@ -214,7 +211,7 @@ const OrderScreen = () => {
                   <ListGroup.Item>
                     {loadingPay && <Loader />}
   
-                    {isPending ? (
+                    {false ? (
                       <Loader />
                     ) : (
                       <div>
@@ -227,11 +224,11 @@ const OrderScreen = () => {
                         </Button> */}
   
                         <div>
-                          <PayPalButtons
+                          {/* <PayPalButtons
                             createOrder={createOrder}
                             onApprove={onApprove}
                             onError={onError}
-                          ></PayPalButtons>
+                          ></PayPalButtons> */}
                         </div>
                       </div>
                     )}

@@ -16,6 +16,7 @@ import { ShippingScreen } from './screens/ShippingScreen.tsx'
 import { PrivateRoute } from './components/PrivateRoute.tsx'
 import { PaymentScreen } from './screens/PaymentScreen.tsx'
 import { PlaceOrderScreen } from './screens/PlaceOrderScreen.tsx'
+import OrderScreen from './screens/OrderScreen.tsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,7 +30,7 @@ const router = createBrowserRouter(
         <Route path='shipping' element={<ShippingScreen />} errorElement={<NotFoundScreen/>}/>
         <Route path='payment' element={<PaymentScreen />} errorElement={<NotFoundScreen/>}/>
         <Route path='placeorder' element={<PlaceOrderScreen />} errorElement={<NotFoundScreen/>}/>
-        <Route path='order/:id' element={<PlaceOrderScreen />} errorElement={<NotFoundScreen/>}/>
+        <Route path='order/:id' element={<OrderScreen />} errorElement={<NotFoundScreen/>}/>
         {/* <Route path="" element={<PrivateRoute/>}>
             <Route path='shipping' element={<ShippingScreen />} errorElement={<NotFoundScreen/>}/>
         </Route> */}
