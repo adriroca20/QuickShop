@@ -6,7 +6,10 @@ import { Loader } from "../components/Loader.tsx";
 import { Message } from "../components/Message.tsx";
 
 export const HomeScreen = () => {
-    const { data: products, error, isLoading } = useGetProductsQuery();
+    const { data, error, isLoading } = useGetProductsQuery({
+        pageNumber: "1"
+    });
+    const products:IProduct[] = data?.products || [];
     return (
         <section>
             {

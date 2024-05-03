@@ -9,7 +9,9 @@ const protect = asyncHandler(async (req, res, next) => {
     }
     try {
         const decodedUser = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET)
-        req.user = await User.findById(decodedUser.id).select('-password')
+        console.log("Decoded user", decodedUser)
+        req.user = await User.findById(decodedUser._id).select('-password')
+        console.log("Req user", req.user)
         next()
     } catch (error) {
         console.error(error)

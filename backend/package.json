@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node --watch server.js ",
     "start-once": "node server.js ",
+    "start-all": "concurrently \"cd ../frontend && npm run dev\" \"cd ../backend && npm run start-once\"",
     "data-i": "node seeder.js",
     "data-d": "node seeder.js -d"
   },
@@ -14,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^8.2.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

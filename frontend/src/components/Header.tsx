@@ -3,8 +3,8 @@ import { FaShoppingCart, FaUser } from "react-icons/fa"
 import { useSelector } from "react-redux"
 import { LinkContainer } from "react-router-bootstrap"
 import { useLogoutMutation } from "../state/slices/usersApiSlice"
-import {removeCredentials} from "../state/slices/authSlice"
-import { UseSelector, useDispatch } from "react-redux"
+import { removeCredentials } from "../state/slices/authSlice"
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
 export const Header = () => {
@@ -40,6 +40,20 @@ export const Header = () => {
                                         <NavDropdown.Item>Profile</NavDropdown.Item>
                                     </LinkContainer>
                                     <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                                    {userInfo && userInfo.isAdmin && (
+                                        <>
+                                            <LinkContainer to="/admin/orderlist">
+                                                <NavDropdown.Item>Orders</NavDropdown.Item>
+                                            </LinkContainer>
+                                            <LinkContainer to="/admin/productlist">
+                                                <NavDropdown.Item>Products</NavDropdown.Item>
+                                            </LinkContainer>
+                                            <LinkContainer to="/admin/userlist">
+                                                <NavDropdown.Item>Users</NavDropdown.Item>
+                                            </LinkContainer>
+                                        </>
+                                    )
+                                    }
                                 </NavDropdown>
                             ) : (
                                 <LinkContainer to="/login">

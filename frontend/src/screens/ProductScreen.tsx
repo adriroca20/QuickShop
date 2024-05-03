@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { Form, Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap"
 import { Rating } from "../components/Rating"
-import { useGetProductQuery } from "../state/slices/productsApiSlice"
+import { useGetProductByIdQuery } from "../state/slices/productsApiSlice"
 import { Loader } from "../components/Loader"
 import { useState } from "react"
 import { addToCart } from "../state/slices/cartSlice"
@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux"
 export const ProductScreen = () => {
     const [cuantity, setCuantity] = useState(1)
     const { id } = useParams<{ id: string }>();
-    const { data: product, error, isLoading } = useGetProductQuery(id!);
+    const { data: product, error, isLoading } = useGetProductByIdQuery(id!);
     const dispatch = useDispatch()
     const addToCartHandler = () => {
         dispatch(addToCart({ product, quantity: Number(cuantity) }))
